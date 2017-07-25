@@ -7,5 +7,9 @@ int main (int argc, char *argv[]) {
 
     printf ("Your inputs: %d, %d\n", a, b);
 
+    char c[100] = "Hello world!";
+
+    printf ("%s\n", c);
+
     return 0;
 }
