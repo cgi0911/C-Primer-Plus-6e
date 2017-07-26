@@ -2,10 +2,14 @@
 #include <stdlib.h>
 #include <time.h>
 
-void quick_sort (int *arr, int lo, int hi) {
+
+void quick_sort (int *arr, int lo, int hi) {    
     if (lo >= hi) {
+        printf ("quick_sort (arr, %d, %d) return\n", lo, hi);
         return;
     }
+    
+    printf ("quick_sort (arr, %d, %d)\n", lo, hi);
     
     int pivot = arr[hi];
     int x = lo - 1;
@@ -14,20 +18,52 @@ void quick_sort (int *arr, int lo, int hi) {
     
     for (y = lo ; y <= hi - 1 ; y++) {
         if (arr[y] < pivot) {
-            x++;            
-            temp = arr[y];
-            arr[y] = arr[x];
-            arr[x] = temp;
+            x++;
+            temp = arr[x];
+            arr[x] = arr[y];
+            arr[y] = temp;
         }
     }
     
-    // Finally swap pivot and arr[x+1]
     temp = arr[x+1];
     arr[x+1] = arr[hi];
     arr[hi] = temp;
     
     quick_sort (arr, lo, x);
     quick_sort (arr, x + 2, hi);
+}
+
+
+void sort_array (int *arr, int n) {
+    if (n <= 1) {
+        return;
+    }
+    
+    else {
+        quick_sort (arr, 0, n-1);
+    }
+    
+    return;
+}
+
+
+void print_array (int *arr, int n) {
+    for (int i = 0 ; i < n ; i++) {
+        printf ("%d ", arr[i]);
+    }
+    printf ("\n");
+    return;
+}
+
+
+int *gen_rand_array (int n, int r) {
+    int *arr = (int *) malloc (sizeof (int) * n);
+    
+    for (int i = 0 ; i < n ; i++) {
+        arr[i] = rand () % r;
+    }
+    
+    return arr;
 }
 
 
@@ -41,26 +77,13 @@ int main () {
     printf ("Input range of numbers [0..r-1]: ");
     scanf ("%d", &r);
     
-    int *array = (int *) malloc (sizeof (int) * n);
+    int *arr = gen_rand_array (n, r);
     
-    for (int i = 0 ; i < n ; i++) {
-        array[i] = rand () % r;
-    }
-    
-    printf ("Current array:\n");
-    
-    for (int i = 0 ; i < n ; i++) {
-        printf ("%d ", array[i]);
-    }
-    printf ("\n");
-    
-    quick_sort (array, 0, n-1);
-    
-    printf ("Array after sorting:\n");
-    
-    for (int i = 0 ; i < n ; i++) {
-        printf ("%d ", array[i]);
-    }
-    printf ("\n");
+    printf ("The original array:\n");
+    print_array (arr, n);
         
+    sort_array (arr, n);
+    
+    printf ("The sorted array:\n");
+    print_array (arr, n);
 }
